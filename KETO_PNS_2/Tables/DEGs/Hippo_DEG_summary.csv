@@ -1,0 +1,12 @@
+"Comparison","Total_DEGs","Upregulated","Downregulated"
+"KDvsSD",138,53,85
+"DRvsSD",405,168,237
+"KDI_EXvsSD",361,122,239
+"KDIvsSD",170,39,131
+"HFDvsSD",236,141,95
+"EXvsSD",189,71,118
+"KDvsHFD",240,127,113
+"DRvsHFD",174,91,83
+"KDI_EXvsHFD",721,388,333
+"KDIvsHFD",206,88,118
+"EXvsHFD",397,210,187

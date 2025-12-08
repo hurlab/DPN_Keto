@@ -1,0 +1,33 @@
+# Original analysis folders to exclude from git push
+KETO_CNS/
+KETO_PNS/
+
+# Large data files (anywhere in repository)
+*.RData
+*.rdata
+
+# R history files
+.Rhistory
+
+# R environment files
+.RData
+
+# R package files
+.Rpackages
+
+# RStudio files
+.Rproj.user/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*~
+*.tmp
+*.temp

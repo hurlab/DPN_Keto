@@ -1,0 +1,324 @@
+RESPONSE TO REVIEWERS
+
+*Line numbers refer to the clean manuscript
+
+REVIEWER 1
+Reviewer 1, Comment 1: This study led by Eid, Jaisil, Guo et al.,
+demonstrate that long-term ketogenic diet (KD) preserves peripheral
+nerve structure and function and reshapes metabolic and transcriptional
+pathways in both nerve and muscle, providing strong preclinical evidence
+that KD can prevent MetS-induced peripheral neuropathy. The integration
+of metabolic, hepatic, muscular, neural, and transcriptomic endpoints is
+impressive, with implications for whole health in addition to
+neuropathy. This study has a comprehensive experimental design,
+including both prevention and intervention paradigms, which is uncommon
+and strengthens causal inference and allows comparison of additive vs
+independent effects.
+
+Our response: Thank reviewer
+
+Reviewer 1, Comment 2: From my understanding, a central interpretive gap
+is the absence of comparisons between intervention groups (KDI, EXI,
+KDI-EXI) and the SDI diet-reversal group. As currently presented, all
+intervention effects are interpreted only relative to HFD? This leaves
+open the possibility that some improvements are driven by stopping HFD
+rather than by the interventions themselves. Analyses of KDI vs SDI, EXI
+vs SDI, and KDI-EXI vs SDI could help determine intervention-specific
+benefits. Authors could at least perform an analysis that removes DEGs
+shared between SDI vs HFD and each intervention vs HFD. This would
+isolate genes and pathways uniquely affected by KDI, EXI, or KDI-EXI
+rather than those reflecting generic reversal of HFD-induced injury.
+
+Our response: Explain that we tried to be focused about which
+interventions we did to keep story clean
+
+Maybe Junguk has these or can make these comparisons publicly available
+in repository?
+
+Reviewer is saying that improvements are simply driven by stopping HFD
+rather than by the interventions themselves, but this would not be true
+for the EX group who remain on HFD
+
+At least do analysis in last sentence, compare interventions but take
+out genes that overlap so that we are only looking at unique genes for
+each intervention and comparing across interventions
+
+EX animals never stop HFD – do pathway enrichment of unique DEGs (Venn
+diagram)
+
+Reviewer 1, Comment 3: While the authors state that their transcriptomic
+profiling is exploratory, the differential expression analyses rely on
+unadjusted p-values, and PCA shows no clear group separation. Without
+FDR correction, many of the reported DEGs and enriched pathways may
+represent statistical noise rather than robust biological effects.
+Several physiological and transcriptional changes are described, but the
+relationships between diet, exercise, and neuropathy remain associative,
+and the conclusions and discussion should clearly reflect this.
+
+Our response: Agree and add as a limitation
+
+Reviewer 1, Comment 4: Pathways highlighted in the manuscript
+particularly immune signaling, extracellular matrix remodeling, and
+lipid metabolism can be highly cell-type specific. Because bulk RNA-seq
+averages signals across many cell populations, these findings cannot be
+confidently mapped to specific cells. The authors could strengthen their
+interpretation by using existing single-cell reference datasets (e.g.
+Eid et al., J Neurochem 2023) to perform bulk RNA-seq deconvolution,
+which would help identify which cell types drive the observed
+transcriptomic shifts. Recent methodological benchmarks, such as Xu et
+al. Briefings in Bioinformatics (2025), provide clear guidelines for
+selecting appropriate deconvolution tools. At minimum, the authors
+should discuss the limitations inherent to bulk transcriptomics and
+maintain conclusions at an appropriately associative level.
+
+Our response: Did do cybersort but didn’t see anything really
+interesting, add a sentence and say data not shown (don’t add data),
+love your comment, felt the same way, trends, nothing significant made
+sense, elected to not include as supplemental, elected to state in a
+sentence with data not shown that we didn’t see anything, just didn’t
+work
+
+[]
+
+In addition to molecular changes in the SCN and GASTROC transcriptome,
+we were also interested in cellular changes underlying diets and
+interventions. As bulk RNA-seq lacks cell-type specificity, we used the
+CIBERSORTx analytical tool to cluster and estimate cellular
+heterogeneity using cell type-specific marker gene expression in SCN
+(49) and GASTROC (50) samples. This approach identified 17 total cell
+clusters in the SCN and 15 total cell clusters in the GASTROC (Figure
+8).
+
+In the SCN, 31-38% of the cell transcriptomes were assigned to
+myelinating Schwann cells, regardless of diet or intervention (Figure
+8A; Figure S16A; Table S28). We observed an increase in the percentage
+of endothelial (blood nerve barrier) and CD4 T helper cells with HFD
+compared to SD (Figure 8A; Figure S16A; Table S28 and S29). HFD also
+induced a trending increase in the levels of fibroblasts (fibro;
+p-value=0.1) and decrease in non-myelinating Schwann cells (nmSCs;
+p-value=0.074) compared to SD, although these changes did not reach
+statistical significance. A rise in endothelial cells was noted in
+long-term KD animals relative to SD (Figure 8A; Figure S16A; Table S28
+and S29). When comparing long-term KD to HFD, CD4 T helper cells were
+more abundant in SCN from HFD animals, whereas nmSCs were less prevalent
+in HFD animals compared to KD (Figure 8A; Figure S16A; Table S28 and
+S29). Cell-type composition between HFD and intervention groups showed
+no significant differences. However, a trending increase in nmSCs in the
+DR group compared to the HFD group (p-value=0.053) was noted.
+Additionally, EX increased CD8 T cell (p-value=0.052) and decreased CD4
+T cell levels (p-value=0.087) relative to the HFD group, although these
+changes did not reach statistical significance. When comparing
+interventions, the percentage of myeloid cell lineage cells was
+significantly higher while vascular smooth muscle cells and pericytes
+were lower in EX compared to KDI-EX animals (Figure 8A; Figure S16A;
+Table S28 and S29).
+
+In the GASTROC, 35-39% of the cell transcriptomes were consistently
+attributed to myonuclei cells, irrespective of diet or intervention
+(Figure 8B; Figure S16B; Table S28). A HFD induced a decrease in the
+levels of dendritic cells and a trending increase in myoblasts
+(p-value=0.089). When comparing a KD to SD, we observed an increase in
+the percentage of muscle stem cells with KD (Figure 8B; Figure S16B;
+Table S28 and S29). KD also reduced monocytes versus HFD animals (Figure
+8B; Figure S16B; Table S28 and S29). With interventions, we observed a
+significant increase in the percentage of dendritic and T cells and a
+decrease in monocytes with DR compared to HFD (Figure 8B; Figure S16B;
+Table S28 and S29). A similar decrease in monocytes was noted in KDI-EX
+animals relative to HFD. In the EX group, monocyte levels were also
+reduced, although this change did not achieve statistical significance
+(p-value=0.067; Figure 8B; Figure S16B; Table S28 and S29). The
+percentage of dendritic cells was also significantly higher in DR
+animals compared to the other interventions (Figure 8B; Figure 16B;
+Table S28 and S29). Finally, T cells were more abundant in GASTROC from
+DR animals than EX mice (Figure 8B; Figure 16B; Table S28 and S29).
+These results indicate that, in the GASTROC, changes in cell-type were
+predominantly observed in immune system components in response to diet
+or interventions.
+
+Reviewer 1, Comment 5: Exercise benefits to nerve and muscle may depend
+on intensity, duration, and modality, none of which are controlled or
+quantified in mechanistic terms. This limits interpretation of
+EX-specific adaptations and should be discussed.
+
+Our response: This is in Keto CNS, completely agree and published as
+suppl data, have re-written section to be more clear according to
+reviewer’s comments
+
+[A chart of numbers and lines AI-generated content may be incorrect.]
+
+[A graph of frequency and frequency AI-generated content may be
+incorrect.]
+
+Reviewer 1, Comment 6: Given well-documented sex differences in
+metabolic regulation and neuropathy susceptibility, the exclusive use of
+male mice restricts the translational relevance of the findings and
+should be discussed.
+
+Our response: We mention this in the limitations, but can highlight it
+more, completely agree, what a great suggestion, this is amzing
+
+REVIEWER 2
+Reviewer 2, Comment 1: This article provides detailed data in support of
+the preventative and therapeutic affects of ketogenic diet and exercise
+on peripheral Neuropathy in metabolic syndrome in mice.
+
+Our response: Thank you
+
+Reviewer 2, Comment 2: The extensive RNAseq data has not been confirmed
+at the protein level by WB or IF. Also some of the presumed metabolites
+by histological staining. It would be critical to define some lead
+targets for mechanistic studies at least in cell culture models.
+
+Our response: We have protein lysate, need to do PCR, can also try
+Western blot, PCR on something different than the Western – have to
+check on what was left
+
+[]
+
+[]
+
+Reviewer 2, Comment 3: The statement on the last sentence in page 12:
+"comparing KD versus HFD identified 451 DEGs, including reduced serpine
+-1,, a senescence marker with enrichment in senescence and p53 signaling
+pathways" is confusing. Is there an increase in senescence markers and
+SASP? If yes which specific markers are regulated? What are the effects
+of KD and exercise?
+
+Our response: This is something that we noticed in this study and are
+now exploring further. No. – This is outside the scope of the study,
+just focus on comparison of interventions vs. HFD, panel is from EMBO
+paper
+
+[A screenshot of a graph AI-generated content may be incorrect.]
+
+Reviewer 2, Comment 4: A mechanistic figure, such as the ones used in
+graphical abstract, summarizing the results and conclusions would be
+very helpful and enhance the article.
+
+Our response: We can make a graphical abstract, not required, but
+encouraged
+
+REVIEWER 3
+Reviewer 3, Comment 1: In this manuscript, the authors test whether
+ketogenic diet, exercise, or both impact peripheral neuropathy in
+metabolic syndrome mice induced by high fat diet.  The authors also
+begin to evaluate the mechanism for protection by bulk seq
+transcriptomic experiments from both peripheral nerve and muscle.
+Strengths of this manuscript include the clinical relevance of these
+translational experiments, the demonstration that combined therapy of
+both ketogenic diet and exercise is better than either alone, and the
+analysis of transcriptomic experiments. There are few weaknesses, but
+they are deemed minor and correctable. These weaknesses are detailed
+below.
+
+Our response: Thank you
+
+Reviewer 3, Comment 2: I don’t like the term “preventative” to describe
+the experiments comparing mice treated with normal, high fat, and
+ketogenic diets.  What is the ketogenic diet preventing?  The importance
+of these experiments is that the ketogenic diet does not induce the same
+toxicity as high fat diet, but the mice are not treated simultaneously
+with high fat and ketogenic diet, so preventative seems inappropriate.
+This should be modified throughout the manuscript and figures.
+
+Our response: I get what they are saying, but not sure what other word
+we would use? Maintenance?
+
+Reviewer 3, Comment 3: The neuromuscular junction quantification is
+different than most other publications. This one uses a histologic stain
+(acetylcholinesterase solution) and staining of nerve fibers with
+neurofilament. Most publications use a fluorescently labeled
+bungarotoxin to label muscle NMJ and presynaptic components labeled
+immunostaining synaptic vesicles in presynaptic terminals. This allows
+for quantification of fully innervated, partially innervated or
+denervated NMJs. Given the lack of significant changes in this
+manuscript, perhaps this is due to the technique. Authors should
+consider restaining and analyzing the muscle with this protocol. If not,
+they should add a figure showing a photomicrograph of their staining in
+supplemental figures and also justify the use of this method in the
+paper.
+
+Our response: Add pictures. Justify – we’ve published three papers using
+this method. Ian can help with taking the pictures
+
+Reviewer 3, Comment 4: The PCA analysis did not demonstrate defined
+separate groups. The importance or explanation of this should be
+discussed further in the paper.
+
+Our response: And a sentence into the results. Agree, good point
+
+Reviewer 3, Comment 5: The discussion of NMJ innervation results is
+misleading. State that “EXI uniquely increased NMJ innervation,
+improving neuromuscular connectivity.”  Though technically true, it is
+hard to know how to interpret the importance of this result given that
+HFD did not induce a change in NMJ innervation.
+
+Our response: Soften the language
+
+Reviewer 3, Comment 6: All of the transcriptomics was completed in nerve
+or muscles at the end of the study. Is there injury to the sciatic nerve
+at this time?  If so, would be nice to see what happens to these gene
+changes earlier prior to the onset of peripheral nerve injury. Similarly
+for the muscle, as it would be good to assess for gene changes PRIOR to
+denervation atrophy.
+
+Our response: Agree that this would be interesting to look at and focus
+of future studies
+
+Reviewer 3, Comment 7: I suspect that many of the gene changes are
+related to correction of metabolic syndrome by treatments with ketogenic
+diet or exercise.  Could the muscle be used as a control for the changes
+in the nerve. Authors should compare gene changes in muscle to those in
+nerve to assess for this. Would be particularly interested in gene
+changes that are happening in nerve and NOT in muscle.
+
+Our response: Meet with Junguk, Do cross tissue comparison like we did
+in
+
+Elzinga SE, Eid SA, McGregor BA, Jang DG, Hinder LM, Dauch JR, Hayes JM,
+Zhang H, Guo K, Pennathur S, Kretzler M, Brosius FC, Koubek EJ, Feldman
+EL, Hur J. Transcriptomic analysis of diabetic kidney disease and
+neuropathy in mouse models of type 1 and type 2 diabetes. Dis Model
+Mech. 2023 Oct 1;16(10):dmm050080. doi: 10.1242/dmm.050080. Epub 2023
+Oct 4. PMID: 37791586; PMCID: PMC10565109.
+
+[A diagram of a cell division AI-generated content may be incorrect.]
+
+REVIEWER 4
+Reviewer 4, Comment 1: The work is highly impressive. However, the
+introduction does not fully do justice to the strength and significance
+of the study. I recommend revising this section, as it is currently
+weaker than the rest of the manuscript. Also, it feels somewhat
+fragmented. A more cohesive and comprehensive introduction would better
+contextualize the study.
+
+Our response: Re-write introduction
+
+Reviewer 4, Comment 2: Under the limitations section, the authors should
+further elaborate on the use of only male mice. Given that sex
+differences can influence metabolic syndrome susceptibility and
+neuropathy outcomes, it would be helpful for the authors to address
+whether female mice may show different metabolic or neurobiological
+responses. discuss how this may affect the interpretation, and future
+directions of the work
+
+Our response: Highlight/expand more in limitations, Refer back to
+previous reviewer. As mentioned…
+
+EDITORIAL OFFICE COMMENTS - FORMATTING CONCERNS:  (See the attached
+document for "All Revised Manuscripts" for guidelines.
+Please remove the color font from the main document text.
+A Graphical abstract is encouraged but not required. Graphical abstracts
+are a visual summary of the article. Graphical abstracts are uploaded to
+the submission website individually, and the file name should be simple
+and descriptive, e.g., graphical_abstract.tiff.
+__________________________________________________
+ASSOCIATE EDITOR'S COMMENTS TO AUTHORS:
+Diabetes is reconsidering titles in order to reach larger audiences.  We
+suggest a minor title change for your manuscript as "Lifestyle
+Interventions for Metabolic Syndrome–Associated Peripheral Neuropathy" -
+broad interest. Alternatively,  "Ketogenic Diet and Exercise Improve
+Peripheral Neuropathy in a Mouse Model of Metabolic Syndrome" -
+simple/direct tone. Please let us know if either reflects the subject
+matter of your study or if you would have another suggestion for the
+title.
