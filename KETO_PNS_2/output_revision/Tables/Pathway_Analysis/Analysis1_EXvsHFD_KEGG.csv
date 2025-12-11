@@ -1,0 +1,5 @@
+"Annot","Term","Annotated","Significant","RichFactor","FoldEnrichment","zscore","Pvalue","Padj","GeneID","ko","Level3","Level2","Level1"
+"00562","Inositol phosphate metabolism",57,4,0.0701754385964912,7.4782116581777,4.78059788644346,0.00191492408672708,0.157023775111621,"Pip4k2b,Plce1,Pi4k2b,Itpkb","00562","Inositol phosphate metabolism","Carbohydrate metabolism","Metabolism"
+"04070","Phosphatidylinositol signaling system",78,4,0.0512820512820513,5.46484698097601,3.86047594249603,0.00597370719649134,0.244921995056145,"Pip4k2b,Plce1,Pi4k2b,Itpkb","04070","Phosphatidylinositol signaling system","Signal transduction","Environmental Information Processing"
+"00512","Mucin type O-glycan biosynthesis",28,2,0.0714285714285714,7.61175115207373,3.41213241099239,0.0280057118139405,0.738824075755293,"Galnt10,Galnt16","00512","Mucin type O-glycan biosynthesis","Glycan biosynthesis and metabolism","Metabolism"
+"04974","Protein digestion and absorption",78,3,0.0384615384615385,4.09863523573201,2.67919748046976,0.0364064517855972,0.738824075755293,"Col2a1,Kcnk5,Col15a1","04974","Protein digestion and absorption","Digestive system","Organismal Systems"
