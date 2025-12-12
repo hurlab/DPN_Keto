@@ -31,3 +31,6 @@ Thumbs.db
 *~
 *.tmp
 *.temp
+
+# Dropbox attribute sidecar files
+*.attrs
