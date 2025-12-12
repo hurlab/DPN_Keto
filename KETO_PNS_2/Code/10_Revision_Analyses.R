@@ -38,9 +38,9 @@ if (exists("gastrocs")) {
   names(gastrocs) <- gsub("Gastroc_", "", names(gastrocs))
 }
 
-# Build annotations (use builtin to avoid network dependency)
-mmko <- buildAnnot(species = "mouse", keytype = "SYMBOL", anntype = "KEGG", builtin = TRUE)
-mmgo <- buildAnnot(species = "mouse", keytype = "SYMBOL", anntype = "GO", builtin = TRUE)
+# Build annotations (using online KEGG/GO; builtin=FALSE as preferred)
+mmko <- buildAnnot(species = "mouse", keytype = "SYMBOL", anntype = "KEGG", builtin = FALSE)
+mmgo <- buildAnnot(species = "mouse", keytype = "SYMBOL", anntype = "GO", builtin = FALSE)
 
 # Helpers ---------------------------------------------------------------
 save_genes <- function(genes, label, subfolder = path_dir) {
@@ -55,7 +55,7 @@ save_genes <- function(genes, label, subfolder = path_dir) {
 run_kegg <- function(genes) {
   if (length(genes) == 0) return(NULL)
   tryCatch({
-    res <- richKEGG(genes, mmko, builtin = TRUE)
+    res <- richKEGG(genes, mmko, builtin = FALSE)
     if (!is.null(res)) res <- as.data.frame(res)
     res
   }, error = function(e) {
@@ -65,7 +65,17 @@ run_kegg <- function(genes) {
 }
 
 run_go <- function(genes) {
-  NULL
+  if (length(genes) == 0) return(NULL)
+  tryCatch({
+    res <- richGO(genes, mmgo, ont = "BP", keytype = "SYMBOL")
+    if (is.null(res)) return(NULL)
+    df <- as.data.frame(res)
+    if (!"Description" %in% names(df)) return(NULL)
+    df
+  }, error = function(e) {
+    message("GO error: ", e$message)
+    NULL
+  })
 }
 
 make_heatmap <- function(res_list, top_n = 15, prefix, value_col = c("Qvalue", "Pvalue")) {
@@ -76,7 +86,7 @@ make_heatmap <- function(res_list, top_n = 15, prefix, value_col = c("Qvalue", "
     purrr::imap(function(df, nm) {
       if (is.null(df) || nrow(df) == 0) return(character(0))
       col_use <- intersect(value_col, names(df))[1]
-      if (is.na(col_use)) return(character(0))
+      if (is.na(col_use) || !"Description" %in% names(df)) return(character(0))
       df |>
         dplyr::arrange(.data[[col_use]]) |>
         dplyr::slice_head(n = top_n) |>
@@ -95,7 +105,7 @@ make_heatmap <- function(res_list, top_n = 15, prefix, value_col = c("Qvalue", "
     df <- res_list[[nm]]
     if (is.null(df) || nrow(df) == 0) next
     col_use <- intersect(value_col, names(df))[1]
-    if (is.na(col_use)) next
+    if (is.na(col_use) || !"Description" %in% names(df)) next
     vals <- df |>
       dplyr::filter(Description %in% all_terms) |>
       dplyr::select(Description, !!sym(col_use))
