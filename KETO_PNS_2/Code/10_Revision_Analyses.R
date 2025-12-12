@@ -22,6 +22,7 @@ library(VennDetail)
 library(richR)
 library(pheatmap)
 library(ggplot2)
+library(dplyr)
 })
 
 # Output directories
@@ -155,6 +156,23 @@ make_heatmap <- function(res_list, top_n = 15, prefix, value_col = c("Padj", "Qv
   )
 }
 
+add_stats_to_overlaps <- function(overlaps_df, comps, gene_col = NULL) {
+  if (is.null(gene_col)) {
+    gene_col <- if ("Detail" %in% names(overlaps_df)) "Detail" else names(overlaps_df)[1]
+  }
+  for (comp in comps) {
+    if (!exists("scns") || !(comp %in% names(scns))) next
+    res <- as.data.frame(scns[[comp]])
+    res$Gene <- rownames(res)
+    res <- res |>
+      dplyr::select(Gene, log2FoldChange, pvalue, padj)
+    colnames(res)[2:4] <- paste0(comp, "_", c("log2FoldChange", "pvalue", "padj"))
+    overlaps_df <- overlaps_df |>
+      dplyr::left_join(res, by = setNames("Gene", gene_col))
+  }
+  overlaps_df
+}
+
 write_heatmap_files <- function(hm_data, prefix, with_values = FALSE, digits = 2) {
   fill_label <- paste0("-log10(", hm_data$col_label, ")")
   df <- as.data.frame(as.table(hm_data$mat))
@@ -229,6 +247,7 @@ make_venn <- function(gene_lists, prefix) {
   ggplot2::ggsave(png_path, plot = plt, width = 10, height = 9, dpi = 300)
 
   overlaps <- VennDetail::result(venn_obj)
+  overlaps <- add_stats_to_overlaps(overlaps, names(gene_lists))
   write.csv(overlaps, file.path(path_dir, paste0(prefix, "_overlaps.csv")), row.names = FALSE)
   venn_obj
 }
