@@ -15,6 +15,12 @@
   - DR-subtracted HFD contrasts (Analysis 1) corroborate intervention-unique genes vs HFD; EX retains synaptic/metabolic pathways despite HFD, reinforcing non-dietary effects.
 - Deliverables: DR-filtered Venns/heatmaps (`Analysis2_DRFiltered_*`), and tables with log2FC/pvalues for all overlaps/uniques.
 
+## Point-by-Point Responses (Reviewer 3, nerve specificity)
+- Concern: Need to show sciatic nerve effects are not generic muscle responses.
+- Action: Generated nerve-specific DEGs by removing matching gastroc DEGs (Analysis 3) for both intervention and maintenance schemes; performed Venns and enrichment on nerve-only sets.
+- Evidence: Nerve-specific unique DEGs remain high (e.g., HFDvsSD 950; EXvsHFD 283; DRvsHFD 285; KDI_EXvsHFD 282; KDIvsHFD 167; KDvsHFD 197; KDvsSD 123) with nerve-enriched pathways (tight junction/PI3K-Akt/Hippo; inositol phosphate/axon guidance; peroxisome/PPAR; fatty acid degradation/SCFA metabolism; ECM/CAM; TCA/OXPHOS).
+- Deliverables: `Analysis3_*` Venns and GO/KEGG CSVs with log2FC/pvalues.
+
 ## Analysis 1 – DR-subtracted intervention effects (vs HFD)
 - Method: Removed DRvsHFD DEGs from each intervention vs HFD; Venn + unique sets; GO/KEGG on uniques.
 - Unique DEGs: EX 283; KDI 158; KDI_EX 285.
