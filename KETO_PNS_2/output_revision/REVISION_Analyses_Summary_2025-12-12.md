@@ -36,6 +36,7 @@
   - Intervention: DR 285; EX 283; KDI 167; KDI_EX 282; KD 197.
   - Maintenance: HFDvsSD 950; KDvsSD 123.
 - Interpretation:
+  - Cross-tissue overlap is minimal: shared sciatic vs gastrocnemius DEGs are 0–22.8% of nerve sets (e.g., EXvsHFD 0%; HFDvsSD 4.2%; KDI_EXvsHFD 7.6%; KDvsHFD 22.8%), underscoring nerve-specific biology.
   - EX nerve-specific: phosphoinositide and glycan remodeling imply neuronal signaling/plasticity changes unique to exercise under HFD.
   - KDI nerve-specific: ECM/CAM enrichment suggests nerve structural remodeling distinct from muscle.
   - KDI_EX nerve-specific: fatty acid and short-chain fatty acid metabolism point to enhanced neural bioenergetics from combined intervention.
