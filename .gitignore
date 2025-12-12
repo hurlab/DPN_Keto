@@ -34,3 +34,6 @@ Thumbs.db
 
 # Dropbox attribute sidecar files
 *.attrs
+
+# Manuscript folder to keep out of version control
+KETO_MANU/
