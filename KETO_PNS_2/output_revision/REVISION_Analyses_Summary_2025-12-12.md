@@ -15,22 +15,22 @@
   - KDI_EX engages lipid catabolism (fatty acid degradation, peroxisome) and short-chain fatty acid pathways, pointing to combined dietary/exercise metabolic reprogramming.
 - Key files: `Analysis1_*` in Tables/Figures (e.g., `Analysis1_EXvsHFD_Unique_DEGs.csv`, `Analysis1_DR_Subtracted_Interventions_Venn.pdf/png`).
 
-## Analysis 2 – Interventions vs SD, filtered against DR (dietary reversal) effects
-- Method: From each intervention vs SD DEG set, removed all DRvsSD DEGs to isolate intervention-specific benefits beyond diet reversal; Venn + uniques; GO/KEGG on uniques.
-- Unique DEGs (DR-filtered): EX 436; KDI 563; KDI_EX 621.
+## Analysis 2 – Interventions vs DR baseline
+- Method: Direct contrasts EXvsDR, KDIvsDR, KDI_EXvsDR (DESeq2 from `scndds`); DEGs called at p < 0.05; Venn + uniques; GO/KEGG on uniques.
+- Unique DEGs: EXvsDR 1,681; KDIvsDR 836; KDI_EXvsDR 832.
 - Interpretation:
-  - EXvsSD (still on HFD) retains ECM/PI3K-Akt signatures (collagen-rich “protein digestion/absorption”) implying EX-specific matrix/signaling shifts not achieved by DR.
-  - KDIvsSD shows strong immune/antigen-presentation (hematopoietic lineage, antigen processing), indicating KD-driven immune modulation beyond diet reversal.
-  - KDI_EXvsSD activates endocrine/metabolic control (thyroid hormone, mTOR, AMPK/PI3K-Akt), consistent with synergistic dietary+exercise benefits on energy signaling.
-- Key files: prefixed `Analysis2_DRFiltered_*` (e.g., `Analysis2_DRFiltered_Interventions_Venn.pdf/png`, `Analysis2_EXvsSD_DRFiltered_Unique_DEGs.csv`, GO/KEGG CSVs).
+  - EXvsDR: strong cell-cycle/microtubule/motor protein programs (Cell cycle, Motor proteins), consistent with exercise-driven proliferative/repair signatures beyond DR.
+  - KDIvsDR: translational and neurodegenerative modules (Ribosome, ALS) suggesting KD-specific proteostasis/mitochondrial adaptations not seen with DR.
+  - KDI_EXvsDR: circadian and PI3K-Akt signaling (circadian rhythm, PI3K-Akt), indicating combined diet+exercise reprograms timing and growth-factor pathways beyond DR.
+- Key files: prefixed `Analysis2_*` (e.g., `Analysis2_DR_Interventions_Venn.pdf/png`, `Analysis2_EXvsDR_Unique_DEGs.csv`, GO/KEGG CSVs, Top10/Top20 heatmaps under `Analysis2_DR_GO/KEGG_*`).
 
 ## Response to Reviewer 1 (Comment 2) – Intervention effects vs diet reversal
-- Concern: Intervention benefits might reflect generic HFD withdrawal; need DR/SD comparisons.
-- Action: Analyses 1 and 2 isolate intervention-specific effects beyond DR: (1) DR-subtracted vs HFD; (2) DR-filtered vs SD.
+- Concern: Intervention benefits might reflect generic HFD withdrawal; need DR comparisons.
+- Action: Analyses 1 and 2 isolate intervention-specific effects beyond DR: (1) DR-subtracted vs HFD; (2) direct interventions vs DR baseline.
 - Evidence:
-  - EX retains 283 unique DEGs vs HFD after DR subtraction and 436 DR-filtered unique DEGs vs SD, with synaptic/ECM/PI3K-Akt signals despite continued HFD feeding.
-  - KDI and KDI_EX show distinct immune/endocrine/metabolic programs (hematopoietic lineage, antigen presentation; thyroid/mTOR/AMPK) absent from DR-only reversal.
-  - Heatmaps/Venns in `Analysis1_*` and `Analysis2_DRFiltered_*` demonstrate non-overlapping intervention signatures with log2FC/pvalues provided.
+  - EX retains 283 unique DEGs vs HFD after DR subtraction and 1,681 DEGs vs DR, with synaptic/cell-cycle/ECM-PI3K-Akt signals despite continued HFD feeding.
+  - KDI and KDI_EX show distinct immune/endocrine/metabolic programs (ribosome/proteostasis; circadian/PI3K-Akt) absent from DR-only reversal.
+  - Heatmaps/Venns in `Analysis1_*` and `Analysis2_*` demonstrate non-overlapping intervention signatures with log2FC/pvalues provided.
 
 ## Analysis 3 – Nerve-specific intervention and maintenance schemes
 - Method: For each comparison, removed matching gastroc DEGs from sciatic DEGs; Venns for intervention (EX/DR/KDI/KDI_EX/KD vs HFD) and maintenance (HFDvsSD, KDvsSD, KDvsHFD); GO/KEGG on nerve-specific uniques.

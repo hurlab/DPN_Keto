@@ -16,13 +16,11 @@ suppressPackageStartupMessages({
   library(purrr)
   library(tidyr)
   library(ggplot2)
-library(readr)
-library(stringr)
-library(VennDetail)
-library(richR)
-library(pheatmap)
-library(ggplot2)
-library(dplyr)
+  library(readr)
+  library(stringr)
+  library(VennDetail)
+  library(richR)
+  library(pheatmap)
 })
 
 # Output directories
@@ -50,6 +48,29 @@ if (exists("gastrocs")) {
   names(gastrocs) <- gsub("Gastroc_", "", names(gastrocs))
 }
 
+# Collect DESeq results for stats joins
+results_store <- lapply(scns, function(res) {
+  df <- as.data.frame(res)
+  df$Gene <- rownames(df)
+  df
+})
+
+# Add intervention vs DR contrasts from DESeqDataSet if available
+if (exists("scndds")) {
+  extract_res <- function(name) {
+    res <- DESeq2::results(scndds, name = name)
+    df <- as.data.frame(res)
+    df$Gene <- rownames(df)
+    df
+  }
+  dr_results <- list(
+    EXvsDR = extract_res("condition_SCN_EX_vs_SCN_DR"),
+    KDIvsDR = extract_res("condition_SCN_KDI_vs_SCN_DR"),
+    KDI_EXvsDR = extract_res("condition_SCN_KDI_EX_vs_SCN_DR")
+  )
+  results_store <- c(results_store, dr_results)
+}
+
 # Build annotations (using online KEGG/GO; builtin=FALSE as preferred)
 mmko <- buildAnnot(species = "mouse", keytype = "SYMBOL", anntype = "KEGG", builtin = FALSE)
 mmgo <- buildAnnot(species = "mouse", keytype = "SYMBOL", anntype = "GO", builtin = FALSE)
@@ -59,9 +80,8 @@ save_genes <- function(genes, label, subfolder = path_dir, comp = NULL) {
   if (length(genes) == 0) return(invisible(NULL))
 
   df <- data.frame(Gene = genes)
-  if (!is.null(comp) && exists("scns") && comp %in% names(scns)) {
-    res_df <- as.data.frame(scns[[comp]])
-    res_df$Gene <- rownames(res_df)
+  if (!is.null(comp) && comp %in% names(results_store)) {
+    res_df <- results_store[[comp]]
     df_stats <- res_df |>
       dplyr::filter(Gene %in% genes) |>
       dplyr::select(Gene, log2FoldChange, pvalue)
@@ -161,9 +181,8 @@ add_stats_to_overlaps <- function(overlaps_df, comps, gene_col = NULL) {
     gene_col <- if ("Detail" %in% names(overlaps_df)) "Detail" else names(overlaps_df)[1]
   }
   for (comp in comps) {
-    if (!exists("scns") || !(comp %in% names(scns))) next
-    res <- as.data.frame(scns[[comp]])
-    res$Gene <- rownames(res)
+    if (!(comp %in% names(results_store))) next
+    res <- results_store[[comp]]
     res <- res |>
       dplyr::select(Gene, log2FoldChange, pvalue)
     colnames(res)[2:3] <- paste0(comp, "_", c("log2FoldChange", "pvalue"))
@@ -289,27 +308,30 @@ if (length(interv_filtered) >= 2) {
   save_heatmap_variants(interv_kegg, base_prefix = "Analysis1_KEGG", value_col = c("Qvalue", "Pvalue"))
 }
 
-# Analysis 2: Interventions vs DR baseline (subtract DRvsSD from intervention vs SD)
-dr_sd_genes <- if ("DRvsSD" %in% names(scns)) rownames(scns[["DRvsSD"]]) else character(0)
-sdi_comps <- c("EXvsSD", "KDIvsSD", "KDI_EXvsSD")
-sdi_avail <- sdi_comps[sdi_comps %in% names(scns)]
-sdi_filtered <- lapply(sdi_avail, function(comp) setdiff(rownames(scns[[comp]]), dr_sd_genes))
-names(sdi_filtered) <- sdi_avail
+# Analysis 2: Interventions vs DR baseline
+dr_comps <- c("EXvsDR", "KDIvsDR", "KDI_EXvsDR")
+dr_avail <- dr_comps[dr_comps %in% names(results_store)]
+dr_lists <- lapply(dr_avail, function(comp) {
+  df <- results_store[[comp]]
+  df <- df |> dplyr::filter(!is.na(pvalue), pvalue < 0.05)
+  df$Gene
+})
+names(dr_lists) <- dr_avail
 
-if (length(sdi_filtered) >= 2) {
-  venn2 <- make_venn(sdi_filtered, "Analysis2_DRFiltered_Interventions")
-  purrr::iwalk(sdi_filtered, ~save_genes(.x, paste0("Analysis2_", .y, "_DRFiltered_DEGs"), comp = .y))
+if (length(dr_lists) >= 2) {
+  venn2 <- make_venn(dr_lists, "Analysis2_DR_Interventions")
+  purrr::iwalk(dr_lists, ~save_genes(.x, paste0("Analysis2_", .y, "_DEGs"), comp = .y))
 
-  sdi_unique <- unique_only(sdi_filtered)
-  purrr::iwalk(sdi_unique, ~save_genes(.x, paste0("Analysis2_", .y, "_DRFiltered_Unique_DEGs"), comp = .y))
+  dr_unique <- unique_only(dr_lists)
+  purrr::iwalk(dr_unique, ~save_genes(.x, paste0("Analysis2_", .y, "_Unique_DEGs"), comp = .y))
 
-  sdi_kegg <- purrr::imap(sdi_unique, ~run_kegg(.x))
-  sdi_go <- purrr::imap(sdi_unique, ~run_go(.x))
-  purrr::iwalk(sdi_kegg, ~if (!is.null(.x)) write.csv(.x, file.path(path_dir, paste0("Analysis2_", .y, "_DRFiltered_KEGG.csv")), row.names = FALSE))
-  purrr::iwalk(sdi_go, ~if (!is.null(.x)) write.csv(as.data.frame(.x), file.path(path_dir, paste0("Analysis2_", .y, "_DRFiltered_GO.csv")), row.names = FALSE))
+  dr_kegg <- purrr::imap(dr_unique, ~run_kegg(.x))
+  dr_go <- purrr::imap(dr_unique, ~run_go(.x))
+  purrr::iwalk(dr_kegg, ~if (!is.null(.x)) write.csv(.x, file.path(path_dir, paste0("Analysis2_", .y, "_KEGG.csv")), row.names = FALSE))
+  purrr::iwalk(dr_go, ~if (!is.null(.x)) write.csv(as.data.frame(.x), file.path(path_dir, paste0("Analysis2_", .y, "_GO.csv")), row.names = FALSE))
 
-  save_heatmap_variants(sdi_go, base_prefix = "Analysis2_DRFiltered_GO", value_col = c("Padj", "Pvalue", "p.adjust", "qvalue", "pvalue"))
-  save_heatmap_variants(sdi_kegg, base_prefix = "Analysis2_DRFiltered_KEGG", value_col = c("Qvalue", "Pvalue"))
+  save_heatmap_variants(dr_go, base_prefix = "Analysis2_DR_GO", value_col = c("Padj", "Pvalue", "p.adjust", "qvalue", "pvalue"))
+  save_heatmap_variants(dr_kegg, base_prefix = "Analysis2_DR_KEGG", value_col = c("Qvalue", "Pvalue"))
 }
 
 # Analysis 3: Nerve-specific (SCN minus gastroc) -------------------------
