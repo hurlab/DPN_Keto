@@ -26,11 +26,9 @@
 
 ## Response to Reviewer 1 (Comment 2) – Intervention effects vs diet reversal
 - Concern: Intervention benefits might reflect generic HFD withdrawal; need DR comparisons.
-- Action: Analyses 1 and 2 isolate intervention-specific effects beyond DR: (1) DR-subtracted vs HFD; (2) direct interventions vs DR baseline.
-- Evidence:
-  - EX retains 283 unique DEGs vs HFD after DR subtraction and 1,681 DEGs vs DR, with synaptic/cell-cycle/ECM-PI3K-Akt signals despite continued HFD feeding.
-  - KDI and KDI_EX show distinct immune/endocrine/metabolic programs (ribosome/proteostasis; circadian/PI3K-Akt) absent from DR-only reversal.
-  - Heatmaps/Venns in `Analysis1_*` and `Analysis2_*` demonstrate non-overlapping intervention signatures with log2FC/pvalues provided.
+- Primary evidence (Analysis 1, DR-subtracted vs HFD): EX 283, KDI 158, KDI_EX 285 unique DEGs after removing DRvsHFD genes, showing synaptic/phosphoinositide (EX), ECM/CAM (KDI), and lipid catabolism/SCFA (KDI_EX) pathways—intervention-specific signals not explained by diet reversal.
+- Auxiliary evidence (Analysis 2, interventions vs DR): direct DR baseline contrasts further show distinct intervention signatures (cell cycle/motor proteins for EX; ribosome/proteostasis for KDI; circadian/PI3K-Akt for KDI_EX).
+- Deliverables: `Analysis1_*` (core DR-subtracted evidence) and `Analysis2_*` (auxiliary DR baseline) tables/figures with log2FC/pvalues.
 
 ## Analysis 3 – Nerve-specific intervention and maintenance schemes
 - Method: For each comparison, removed matching gastroc DEGs from sciatic DEGs; Venns for intervention (EX/DR/KDI/KDI_EX/KD vs HFD) and maintenance (HFDvsSD, KDvsSD, KDvsHFD); GO/KEGG on nerve-specific uniques.
