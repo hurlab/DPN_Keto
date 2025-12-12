@@ -64,7 +64,7 @@ save_genes <- function(genes, label, subfolder = path_dir, comp = NULL) {
     res_df$Gene <- rownames(res_df)
     df_stats <- res_df |>
       dplyr::filter(Gene %in% genes) |>
-      dplyr::select(Gene, log2FoldChange, pvalue, padj)
+      dplyr::select(Gene, log2FoldChange, pvalue)
     # keep original order
     df <- df_stats[match(genes, df_stats$Gene), ]
   }
@@ -165,8 +165,8 @@ add_stats_to_overlaps <- function(overlaps_df, comps, gene_col = NULL) {
     res <- as.data.frame(scns[[comp]])
     res$Gene <- rownames(res)
     res <- res |>
-      dplyr::select(Gene, log2FoldChange, pvalue, padj)
-    colnames(res)[2:4] <- paste0(comp, "_", c("log2FoldChange", "pvalue", "padj"))
+      dplyr::select(Gene, log2FoldChange, pvalue)
+    colnames(res)[2:3] <- paste0(comp, "_", c("log2FoldChange", "pvalue"))
     overlaps_df <- overlaps_df |>
       dplyr::left_join(res, by = setNames("Gene", gene_col))
   }
