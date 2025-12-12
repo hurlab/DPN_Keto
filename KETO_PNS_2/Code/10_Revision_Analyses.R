@@ -31,9 +31,11 @@ path_dir <- file.path(out_base, "Tables")
 dir.create(fig_dir, recursive = TRUE, showWarnings = FALSE)
 dir.create(path_dir, recursive = TRUE, showWarnings = FALSE)
 
-# Clear old figure outputs so only the latest variants remain
+# Clear old outputs so only the latest variants remain
 old_figs <- list.files(fig_dir, full.names = TRUE)
 if (length(old_figs) > 0) unlink(old_figs, recursive = TRUE, force = TRUE)
+old_tables <- Sys.glob(file.path(path_dir, "Analysis2_*"))
+if (length(old_tables) > 0) unlink(old_tables, recursive = TRUE, force = TRUE)
 
 # Common heatmap palette (light to dark red)
 heat_colors <- c("#fff5f0", "#fc9272", "#cb181d")
@@ -268,26 +270,27 @@ if (length(interv_filtered) >= 2) {
   save_heatmap_variants(interv_kegg, base_prefix = "Analysis1_KEGG", value_col = c("Qvalue", "Pvalue"))
 }
 
-# Analysis 2: SD vs interventions ----------------------------------------
+# Analysis 2: Interventions vs DR baseline (subtract DRvsSD from intervention vs SD)
+dr_sd_genes <- if ("DRvsSD" %in% names(scns)) rownames(scns[["DRvsSD"]]) else character(0)
 sdi_comps <- c("EXvsSD", "KDIvsSD", "KDI_EXvsSD")
 sdi_avail <- sdi_comps[sdi_comps %in% names(scns)]
-sdi_lists <- lapply(sdi_avail, function(comp) rownames(scns[[comp]]))
-names(sdi_lists) <- sdi_avail
+sdi_filtered <- lapply(sdi_avail, function(comp) setdiff(rownames(scns[[comp]]), dr_sd_genes))
+names(sdi_filtered) <- sdi_avail
 
-if (length(sdi_lists) >= 2) {
-  venn2 <- make_venn(sdi_lists, "Analysis2_SDI_vs_Interventions")
-  purrr::iwalk(sdi_lists, ~save_genes(.x, paste0("Analysis2_", .y, "_DEGs"), comp = .y))
+if (length(sdi_filtered) >= 2) {
+  venn2 <- make_venn(sdi_filtered, "Analysis2_DRFiltered_Interventions")
+  purrr::iwalk(sdi_filtered, ~save_genes(.x, paste0("Analysis2_", .y, "_DRFiltered_DEGs"), comp = .y))
 
-  sdi_unique <- unique_only(sdi_lists)
-  purrr::iwalk(sdi_unique, ~save_genes(.x, paste0("Analysis2_", .y, "_Unique_DEGs"), comp = .y))
+  sdi_unique <- unique_only(sdi_filtered)
+  purrr::iwalk(sdi_unique, ~save_genes(.x, paste0("Analysis2_", .y, "_DRFiltered_Unique_DEGs"), comp = .y))
 
   sdi_kegg <- purrr::imap(sdi_unique, ~run_kegg(.x))
   sdi_go <- purrr::imap(sdi_unique, ~run_go(.x))
-  purrr::iwalk(sdi_kegg, ~if (!is.null(.x)) write.csv(.x, file.path(path_dir, paste0("Analysis2_", .y, "_KEGG.csv")), row.names = FALSE))
-  purrr::iwalk(sdi_go, ~if (!is.null(.x)) write.csv(as.data.frame(.x), file.path(path_dir, paste0("Analysis2_", .y, "_GO.csv")), row.names = FALSE))
+  purrr::iwalk(sdi_kegg, ~if (!is.null(.x)) write.csv(.x, file.path(path_dir, paste0("Analysis2_", .y, "_DRFiltered_KEGG.csv")), row.names = FALSE))
+  purrr::iwalk(sdi_go, ~if (!is.null(.x)) write.csv(as.data.frame(.x), file.path(path_dir, paste0("Analysis2_", .y, "_DRFiltered_GO.csv")), row.names = FALSE))
 
-  save_heatmap_variants(sdi_go, base_prefix = "Analysis2_GO", value_col = c("Padj", "Pvalue", "p.adjust", "qvalue", "pvalue"))
-  save_heatmap_variants(sdi_kegg, base_prefix = "Analysis2_KEGG", value_col = c("Qvalue", "Pvalue"))
+  save_heatmap_variants(sdi_go, base_prefix = "Analysis2_DRFiltered_GO", value_col = c("Padj", "Pvalue", "p.adjust", "qvalue", "pvalue"))
+  save_heatmap_variants(sdi_kegg, base_prefix = "Analysis2_DRFiltered_KEGG", value_col = c("Qvalue", "Pvalue"))
 }
 
 # Analysis 3: Nerve-specific (SCN minus gastroc) -------------------------
