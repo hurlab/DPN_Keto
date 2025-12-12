@@ -52,13 +52,21 @@ mmko <- buildAnnot(species = "mouse", keytype = "SYMBOL", anntype = "KEGG", buil
 mmgo <- buildAnnot(species = "mouse", keytype = "SYMBOL", anntype = "GO", builtin = FALSE)
 
 # Helpers ---------------------------------------------------------------
-save_genes <- function(genes, label, subfolder = path_dir) {
+save_genes <- function(genes, label, subfolder = path_dir, comp = NULL) {
   if (length(genes) == 0) return(invisible(NULL))
-  write.csv(
-    data.frame(Gene = genes),
-    file = file.path(subfolder, paste0(label, ".csv")),
-    row.names = FALSE
-  )
+
+  df <- data.frame(Gene = genes)
+  if (!is.null(comp) && exists("scns") && comp %in% names(scns)) {
+    res_df <- as.data.frame(scns[[comp]])
+    res_df$Gene <- rownames(res_df)
+    df_stats <- res_df |>
+      dplyr::filter(Gene %in% genes) |>
+      dplyr::select(Gene, log2FoldChange, pvalue, padj)
+    # keep original order
+    df <- df_stats[match(genes, df_stats$Gene), ]
+  }
+
+  write.csv(df, file = file.path(subfolder, paste0(label, ".csv")), row.names = FALSE)
 }
 
 run_kegg <- function(genes) {
@@ -243,11 +251,11 @@ if (length(interv_filtered) >= 2) {
   venn1 <- make_venn(interv_filtered, "Analysis1_DR_Subtracted_Interventions")
 
   # Save filtered gene lists
-  purrr::iwalk(interv_filtered, ~save_genes(.x, paste0("Analysis1_", .y, "_Filtered_DEGs")))
+  purrr::iwalk(interv_filtered, ~save_genes(.x, paste0("Analysis1_", .y, "_Filtered_DEGs"), comp = .y))
 
   # Unique sets per comparison
   interv_unique <- unique_only(interv_filtered)
-  purrr::iwalk(interv_unique, ~save_genes(.x, paste0("Analysis1_", .y, "_Unique_DEGs")))
+  purrr::iwalk(interv_unique, ~save_genes(.x, paste0("Analysis1_", .y, "_Unique_DEGs"), comp = .y))
 
   # Enrichment for unique sets
   interv_kegg <- purrr::imap(interv_unique, ~run_kegg(.x))
@@ -268,10 +276,10 @@ names(sdi_lists) <- sdi_avail
 
 if (length(sdi_lists) >= 2) {
   venn2 <- make_venn(sdi_lists, "Analysis2_SDI_vs_Interventions")
-  purrr::iwalk(sdi_lists, ~save_genes(.x, paste0("Analysis2_", .y, "_DEGs")))
+  purrr::iwalk(sdi_lists, ~save_genes(.x, paste0("Analysis2_", .y, "_DEGs"), comp = .y))
 
   sdi_unique <- unique_only(sdi_lists)
-  purrr::iwalk(sdi_unique, ~save_genes(.x, paste0("Analysis2_", .y, "_Unique_DEGs")))
+  purrr::iwalk(sdi_unique, ~save_genes(.x, paste0("Analysis2_", .y, "_Unique_DEGs"), comp = .y))
 
   sdi_kegg <- purrr::imap(sdi_unique, ~run_kegg(.x))
   sdi_go <- purrr::imap(sdi_unique, ~run_go(.x))
@@ -298,10 +306,10 @@ interv_scheme <- c("DRvsHFD", "EXvsHFD", "KDIvsHFD", "KDI_EXvsHFD")
 interv_ns <- nerve_specific_sets(interv_scheme)
 if (length(interv_ns) >= 2) {
   venn3 <- make_venn(interv_ns, "Analysis3_NerveSpecific_Interventions")
-  purrr::iwalk(interv_ns, ~save_genes(.x, paste0("Analysis3_", .y, "_NerveSpecific_DEGs")))
+  purrr::iwalk(interv_ns, ~save_genes(.x, paste0("Analysis3_", .y, "_NerveSpecific_DEGs"), comp = .y))
 
   interv_ns_unique <- unique_only(interv_ns)
-  purrr::iwalk(interv_ns_unique, ~save_genes(.x, paste0("Analysis3_", .y, "_NerveSpecific_Unique_DEGs")))
+  purrr::iwalk(interv_ns_unique, ~save_genes(.x, paste0("Analysis3_", .y, "_NerveSpecific_Unique_DEGs"), comp = .y))
 
   interv_ns_kegg <- purrr::imap(interv_ns_unique, ~run_kegg(.x))
   interv_ns_go <- purrr::imap(interv_ns_unique, ~run_go(.x))
@@ -317,10 +325,10 @@ maint_scheme <- c("HFDvsSD", "KDvsSD", "KDvsHFD")
 maint_ns <- nerve_specific_sets(maint_scheme)
 if (length(maint_ns) >= 2) {
   venn4 <- make_venn(maint_ns, "Analysis3_NerveSpecific_Maintenance")
-  purrr::iwalk(maint_ns, ~save_genes(.x, paste0("Analysis3_", .y, "_NerveSpecific_DEGs")))
+  purrr::iwalk(maint_ns, ~save_genes(.x, paste0("Analysis3_", .y, "_NerveSpecific_DEGs"), comp = .y))
 
   maint_ns_unique <- unique_only(maint_ns)
-  purrr::iwalk(maint_ns_unique, ~save_genes(.x, paste0("Analysis3_", .y, "_NerveSpecific_Unique_DEGs")))
+  purrr::iwalk(maint_ns_unique, ~save_genes(.x, paste0("Analysis3_", .y, "_NerveSpecific_Unique_DEGs"), comp = .y))
 
   maint_ns_kegg <- purrr::imap(maint_ns_unique, ~run_kegg(.x))
   maint_ns_go <- purrr::imap(maint_ns_unique, ~run_go(.x))
