@@ -6,21 +6,6 @@
   - Tables: `output_revision/Tables/` (DEGs/unique DEGs now include `Gene`, `log2FoldChange`, `pvalue`; overlap files also include per-comparison log2FC/pvalues).
 - GO/KEGG use richR (live annotations, `builtin=FALSE`); all cutoffs unchanged from prior runs.
 
-## Point-by-Point Responses (Reviewer 1, Comment 2)
-- Concern: Intervention effects could be generic reversal of HFD; need comparisons against dietary reversal (DR/SD) to show intervention-specific benefits.
-- Action: Added DR-filtered baseline analysis (Analysis 2) removing DRvsSD genes from EX/KDI/KDI_EX vs SD; this isolates intervention-specific DEGs beyond diet reversal.
-- Evidence:
-  - EX (still on HFD) retains 436 DR-filtered unique DEGs vs SD; top pathways (small cell lung cancer, ECM/PI3K-Akt) indicate extracellular remodeling/signaling not explained by stopping HFD.
-  - KDI and KDI_EX show immune/endocrine programs (hematopoietic lineage, antigen presentation; thyroid hormone and mTOR signaling) absent from DR-only reversal.
-  - DR-subtracted HFD contrasts (Analysis 1) corroborate intervention-unique genes vs HFD; EX retains synaptic/metabolic pathways despite HFD, reinforcing non-dietary effects.
-- Deliverables: DR-filtered Venns/heatmaps (`Analysis2_DRFiltered_*`), and tables with log2FC/pvalues for all overlaps/uniques.
-
-## Point-by-Point Responses (Reviewer 3, nerve specificity)
-- Concern: Need to show sciatic nerve effects are not generic muscle responses.
-- Action: Generated nerve-specific DEGs by removing matching gastroc DEGs (Analysis 3) for both intervention and maintenance schemes; performed Venns and enrichment on nerve-only sets.
-- Evidence: Nerve-specific unique DEGs remain high (e.g., HFDvsSD 950; EXvsHFD 283; DRvsHFD 285; KDI_EXvsHFD 282; KDIvsHFD 167; KDvsHFD 197; KDvsSD 123) with nerve-enriched pathways (tight junction/PI3K-Akt/Hippo; inositol phosphate/axon guidance; peroxisome/PPAR; fatty acid degradation/SCFA metabolism; ECM/CAM; TCA/OXPHOS).
-- Deliverables: `Analysis3_*` Venns and GO/KEGG CSVs with log2FC/pvalues.
-
 ## Analysis 1 – DR-subtracted intervention effects (vs HFD)
 - Method: Removed DRvsHFD DEGs from each intervention vs HFD; Venn + unique sets; GO/KEGG on uniques.
 - Unique DEGs: EX 283; KDI 158; KDI_EX 285.
@@ -39,6 +24,14 @@
   - KDI_EXvsSD activates endocrine/metabolic control (thyroid hormone, mTOR, AMPK/PI3K-Akt), consistent with synergistic dietary+exercise benefits on energy signaling.
 - Key files: prefixed `Analysis2_DRFiltered_*` (e.g., `Analysis2_DRFiltered_Interventions_Venn.pdf/png`, `Analysis2_EXvsSD_DRFiltered_Unique_DEGs.csv`, GO/KEGG CSVs).
 
+## Response to Reviewer 1 (Comment 2) – Intervention effects vs diet reversal
+- Concern: Intervention benefits might reflect generic HFD withdrawal; need DR/SD comparisons.
+- Action: Analyses 1 and 2 isolate intervention-specific effects beyond DR: (1) DR-subtracted vs HFD; (2) DR-filtered vs SD.
+- Evidence:
+  - EX retains 283 unique DEGs vs HFD after DR subtraction and 436 DR-filtered unique DEGs vs SD, with synaptic/ECM/PI3K-Akt signals despite continued HFD feeding.
+  - KDI and KDI_EX show distinct immune/endocrine/metabolic programs (hematopoietic lineage, antigen presentation; thyroid/mTOR/AMPK) absent from DR-only reversal.
+  - Heatmaps/Venns in `Analysis1_*` and `Analysis2_DRFiltered_*` demonstrate non-overlapping intervention signatures with log2FC/pvalues provided.
+
 ## Analysis 3 – Nerve-specific intervention and maintenance schemes
 - Method: For each comparison, removed matching gastroc DEGs from sciatic DEGs; Venns for intervention (EX/DR/KDI/KDI_EX/KD vs HFD) and maintenance (HFDvsSD, KDvsSD, KDvsHFD); GO/KEGG on nerve-specific uniques.
 - Nerve-specific unique DEGs:
@@ -50,6 +43,12 @@
   - KDI_EX nerve-specific: fatty acid and short-chain fatty acid metabolism point to enhanced neural bioenergetics from combined intervention.
   - HFDvsSD nerve-specific: tight junction/PI3K-Akt/Hippo highlight barrier and growth-control shifts specific to nerve under metabolic stress.
 - Key files: `Analysis3_*` in Tables/Figures (e.g., `Analysis3_NerveSpecific_Interventions_Venn.pdf/png`, `Analysis3_EXvsHFD_NerveSpecific_Unique_DEGs.csv`, associated GO/KEGG CSVs).
+
+## Response to Reviewer 3 (nerve specificity)
+- Concern: Need to demonstrate nerve (SCN) effects are not generic muscle responses.
+- Action: Analysis 3 removed gastroc DEGs to retain nerve-only signals; Venns and enrichments computed on nerve-specific uniques.
+- Evidence: Large nerve-only sets (e.g., HFDvsSD 950; EXvsHFD 283; DRvsHFD 285; KDI_EXvsHFD 282; KDIvsHFD 167; KDvsHFD 197; KDvsSD 123) with nerve-focused pathways (tight junction/PI3K-Akt/Hippo; phosphoinositide/axon guidance; peroxisome/PPAR; fatty acid degradation/SCFA; ECM/CAM; TCA/OXPHOS).
+- Deliverables: `Analysis3_*` Venns/GO/KEGG files with log2FC/pvalues to document nerve-specific biology.
 
 ## Notes on outputs
 - DEG/Unique/overlap tables now include log2FC and p-value columns per comparison (padj removed to match DEG calling criteria).
